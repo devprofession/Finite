@@ -238,11 +238,14 @@ class StateMachine implements StateMachineInterface
     {
         $name = (string) $name;
 
+        // php 7 compatibility: http://php.net/manual/en/function.get-class.php#refsect1-function.get-class-changelog
+        $getClass = !is_null($this->getObject()) ? get_class($this->getObject()) : get_class();
+
         if (!isset($this->states[$name])) {
             throw new Exception\StateException(sprintf(
                 'Unable to find a state called "%s" on object "%s" with graph "%s".',
                 $name,
-                get_class($this->getObject()),
+                $getClass,
                 $this->getGraph()
             ));
         }
